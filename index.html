@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-bs-theme="dark">
 
 <head>
     <meta charset="utf-8">
@@ -11,7 +11,7 @@
         content="Fandresena, cybersécurité, portfolio, étudiant informatique, INSI Madagascar, réseaux, Linux, pentest, CTF">
     <meta name="author" content="RAKOTOARIVELO Fanaja Misaina Fandresena">
     <meta name="robots" content="index, follow">
-    <meta name="theme-color" content="#0B0F14">
+    <meta name="theme-color" content="#6A00F4">
     <link rel="canonical" href="https://fandresenamisaina.github.io/">
     <link rel="icon" type="image/png" href="favicon.png">
 
@@ -21,7 +21,6 @@
     <meta property="og:description"
         content="Étudiant en L2 Informatique (ARSB), passionné de cybersécurité, de réseaux et d'administration système.">
     <meta property="og:url" content="https://fandresenamisaina.github.io/">
-    <!-- CORRIGÉ : l'ancienne adresse (profil.png à la racine) ne correspondait pas à l'image réellement utilisée -->
     <meta property="og:image" content="https://fandresenamisaina.github.io/images/profil.jpg">
     <meta property="og:image:alt" content="Portrait de Fandresena RAKOTOARIVELO">
     <meta property="og:locale" content="fr_FR">
@@ -33,7 +32,7 @@
         content="Étudiant en L2 Informatique (ARSB), passionné de cybersécurité, de réseaux et d'administration système.">
     <meta name="twitter:image" content="https://fandresenamisaina.github.io/images/profil.jpg">
 
-    <!-- Chargement plus rapide des polices -->
+    <!-- Polices -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet"
@@ -48,119 +47,171 @@
 "sameAs":["https://github.com/fandresenamisaina"]}
 </script>
 
+    <!-- Bootstrap 5.3.8 (local) puis ton CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/folio.css">
 </head>
 
 <body>
     <a class="skip" href="#main">Aller au contenu</a>
 
-    <header>
-        <div class="wrap">
-            <div class="logo">&gt; Fandresena RAKOTOARIVELO<span>_</span></div>
-            <nav aria-label="Navigation principale">
-                <a href="#apropos">/a-propos</a>
-                <a href="#competences">/competences</a>
-                <a href="#projets">/projets</a>
-                <a href="#formation">/formation</a>
-                <a href="#feuille">/feuille-de-route</a>
-                <a href="#contact">/contact</a>
-            </nav>
+    <!-- NAVBAR + MENU HAMBURGER -->
+    <nav class="navbar navbar-expand-lg fixed-top navbar-vivid" aria-label="Navigation principale">
+        <div class="container">
+            <a class="navbar-brand logo" href="#">&gt; Fandresena RAKOTOARIVELO<span>_</span></a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
+                aria-controls="menu" aria-expanded="false" aria-label="Ouvrir le menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="menu">
+                <ul class="navbar-nav ms-auto gap-lg-1 pt-3 pt-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="#apropos">/a-propos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#competences">/competences</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#projets">/projets</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#formation">/formation</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#feuille">/feuille-de-route</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">/contact</a></li>
+                </ul>
+            </div>
         </div>
-    </header>
+    </nav>
 
     <main id="main">
 
         <!-- ACCUEIL -->
-        <div class="wrap hero">
-            <div class="hero-text">
-                <div class="id-row">
-                    <img class="photo" src="images/profil.jpg" width="140" height="140" loading="eager"
-                        fetchpriority="high" decoding="async" alt="Portrait de Fandresena RAKOTOARIVELO"
-                        onerror="this.style.display='none'">
-                    <div class="id-text">
-                        <div class="kicker">// Licence 2 · Informatique · Parcours ARSB · INSI</div>
-                        <h1>Futur expert en <em>cybersécurité</em>.</h1>
+        <header class="hero">
+            <div class="container">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6">
+                        <div
+                            class="d-flex flex-column flex-sm-row align-items-center gap-4 mb-4 text-center text-sm-start">
+                            <img class="photo" src="images/profil.jpg" width="140" height="140" loading="eager"
+                                fetchpriority="high" decoding="async" alt="Portrait de Fandresena RAKOTOARIVELO"
+                                onerror="this.style.display='none'">
+                            <div>
+                                <div class="kicker">// Licence 2 · Informatique · Parcours ARSB · INSI</div>
+                                <h1 class="display-5 fw-bold mb-0">Futur expert en <em>cybersécurité</em>.</h1>
+                            </div>
+                        </div>
+                        <p class="lead mb-4 hero-lead">Étudiant en administration des réseaux, systèmes et bases de
+                            données. J'apprends à construire des infrastructures, puis à les attaquer et les défendre
+                            pour mieux les protéger.</p>
+                        <div class="d-grid d-sm-flex gap-3">
+                            <a class="btn btn-lime btn-lg" href="#projets">Voir mes projets</a>
+                            <a class="btn btn-white btn-lg" href="Documentation/CV Fandresena_ARSB.pdf"
+                                download="CV_Fandresena_RAKOTOARIVELO.pdf">Télécharger mon CV</a>
+                            <a class="btn btn-outline-light btn-lg" href="#contact">Me contacter</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="term" role="img"
+                            aria-label="Profil au format terminal : étudiant L2 ARSB, objectif expert en cybersécurité et administration système, en apprentissage continu">
+                            <div class="term-bar"><i></i><i></i><i></i><span>terminal — profil</span></div>
+                            <div><span class="p">$</span> whoami</div>
+                            <div class="out">Fandresena RAKOTOARIVELO — étudiant L2 ARSB</div>
+                            <div><span class="p">$</span> cat objectif.txt</div>
+                            <div class="out">Devenir expert en cybersécurité et administration système</div>
+                            <div><span class="p">$</span> ls focus/</div>
+                            <div class="out">reseaux/ systemes/ bases-de-donnees/ pentest/ defense/</div>
+                            <div><span class="p">$</span> status</div>
+                            <div class="warn">en apprentissage continu</div>
+                        </div>
                     </div>
                 </div>
-                <p>Étudiant en administration des réseaux, systèmes et bases de données. J'apprends à construire des
-                    infrastructures, puis à les attaquer et les défendre pour mieux les protéger.</p>
-                <div class="btns">
-                    <a class="btn primary" href="#projets">Voir mes projets</a>
-                    <a class="btn" href="Documentation/CV Fandresena_ARSB.pdf" download="CV_Fandresena_RAKOTOARIVELO.pdf">Télécharger mon
-                        CV</a>
-                    <a class="btn ghost" href="#contact">Me contacter</a>
-                </div>
             </div>
-            <div class="term" role="img"
-                aria-label="Profil au format terminal : étudiant L2 ARSB, objectif expert en cybersécurité et administration système, en apprentissage continu">
-                <div class="title">terminal — profil</div>
-                <div><span class="p">$</span> whoami</div>
-                <div class="out">Fandresena RAKOTOARIVELO — étudiant L2 ARSB</div>
-                <div><span class="p">$</span> cat objectif.txt</div>
-                <div class="out">Devenir expert en cybersécurité et administration système</div>
-                <div><span class="p">$</span> ls focus/</div>
-                <div class="out">reseaux/ systemes/ bases-de-donnees/ pentest/ defense/</div>
-                <div><span class="p">$</span> status</div>
-                <div class="warn">en apprentissage continu</div>
-            </div>
-        </div>
+        </header>
 
         <!-- A PROPOS -->
         <section id="apropos" aria-labelledby="t-apropos">
-            <div class="wrap about">
-                <div>
-                    <div class="tag">01 // À PROPOS</div>
-                    <h2 id="t-apropos">Qui suis-je ?</h2>
-                </div>
-                <div>
-                    <p>Je suis étudiant en Licence 2 d'informatique à l'INSI (Institut National Supérieur
-                        d'Informatique), à Madagascar. Passionné par les réseaux et la cybersécurité, je construis mes
-                        compétences avec des laboratoires, des compétitions et des projets.</p>
-                    <p>Mon parcours ARSB me donne une base solide : on ne protège bien que ce que l'on sait administrer.
-                        Mon objectif est de devenir pentester ou ingénieur sécurité. Je suis curieux, rigoureux et
-                        déterminé, et j'aime résoudre des problèmes en équipe.</p>
-                    <div class="pills"><span>Malagasy (maternelle)</span><span>Français (B2)</span></div>
-                    <div class="pills"><span>Cybersécurité</span><span>Réseaux et
-                            systèmes</span><span>Virtualisation</span><span>Linux
-                            et open source</span></div>
+            <div class="container">
+                <div class="row g-5">
+                    <div class="col-lg-4">
+                        <div class="tag">01 // À PROPOS</div>
+                        <h2 id="t-apropos" class="mb-0">Qui suis-je ?</h2>
+                    </div>
+                    <div class="col-lg-8 text-soft">
+                        <p>Je suis étudiant en Licence 2 d'informatique à l'INSI (Institut National Supérieur
+                            d'Informatique), à Madagascar. Passionné par les réseaux et la cybersécurité, je construis
+                            mes compétences avec des laboratoires, des compétitions et des projets.</p>
+                        <p>Mon parcours ARSB me donne une base solide : on ne protège bien que ce que l'on sait
+                            administrer. Mon objectif est de devenir pentester ou ingénieur sécurité. Je suis curieux,
+                            rigoureux et déterminé, et j'aime résoudre des problèmes en équipe.</p>
+                        <div class="d-flex flex-wrap gap-2 mb-2">
+                            <span class="badge rounded-pill pill pill-pink">Malagasy (maternelle)</span>
+                            <span class="badge rounded-pill pill pill-pink">Français (B2)</span>
+                        </div>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge rounded-pill pill pill-cyan">Cybersécurité</span>
+                            <span class="badge rounded-pill pill pill-lime">Réseaux et systèmes</span>
+                            <span class="badge rounded-pill pill pill-amber">Virtualisation</span>
+                            <span class="badge rounded-pill pill pill-violet">Linux et open source</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- COMPETENCES -->
         <section id="competences" class="alt" aria-labelledby="t-competences">
-            <div class="wrap">
+            <div class="container">
                 <div class="tag">02 // COMPÉTENCES</div>
                 <h2 id="t-competences">Socle ARSB + spécialisation sécurité</h2>
-                <div class="grid g3">
-                    <div class="card">
-                        <div class="name">Réseaux</div>
-                        <div class="desc">Adressage IP, connexion et configuration de base de routeurs, de switchs et de
-                            PC pour construire un réseau local. Outils : Packet Tracer, Wireshark.</div>
-                        <div class="meta">En cours d'apprentissage : VLAN, routage, DNS, DHCP</div>
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card card-vivid c-cyan h-100">
+                            <div class="card-body d-flex flex-column gap-2">
+                                <div class="name">Réseaux</div>
+                                <p class="desc mb-0">Adressage IP, connexion et configuration de base de routeurs, de
+                                    switchs et de PC pour construire un réseau local. Outils : Packet Tracer,
+                                    Wireshark.</p>
+                                <div class="meta mt-auto">En cours d'apprentissage : VLAN, routage, DNS, DHCP</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card">
-                        <div class="name">Systèmes</div>
-                        <div class="desc">Bases du shell Linux, utilisation de Kali Linux et de Windows, virtualisation
-                            avec VirtualBox.</div>
-                        <div class="meta">En cours d'apprentissage : scripts Bash, administration Linux</div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card card-vivid c-lime h-100">
+                            <div class="card-body d-flex flex-column gap-2">
+                                <div class="name">Systèmes</div>
+                                <p class="desc mb-0">Bases du shell Linux, utilisation de Kali Linux et de Windows,
+                                    virtualisation avec VirtualBox.</p>
+                                <div class="meta mt-auto">En cours d'apprentissage : scripts Bash, administration
+                                    Linux</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card">
-                        <div class="name">Bases de données</div>
-                        <div class="desc">Introduction à la méthode Merise (modélisation des données). Utilisation de
-                            bases relationnelles : MySQL, MariaDB et SQLite.</div>
-                        <div class="meta">En cours d'apprentissage : requêtes SQL avancées, sécurité des bases</div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card card-vivid c-violet h-100">
+                            <div class="card-body d-flex flex-column gap-2">
+                                <div class="name">Bases de données</div>
+                                <p class="desc mb-0">Introduction à la méthode Merise (modélisation des données).
+                                    Utilisation de bases relationnelles : MySQL, MariaDB et SQLite.</p>
+                                <div class="meta mt-auto">En cours d'apprentissage : requêtes SQL avancées, sécurité
+                                    des bases</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card hl">
-                        <div class="name">Cybersécurité</div>
-                        <div class="desc">Bases du test d'intrusion avec Nmap et Metasploit, dans un cadre de
-                            laboratoire et de compétition. Sécurisation de l'accès SSH sous Kali Linux et Windows.</div>
-                        <div class="meta">En cours d'apprentissage : Burp Suite, OWASP Top 10, analyse de logs</div>
+                    <div class="col-md-6">
+                        <div class="card card-vivid c-pink hl h-100">
+                            <div class="card-body d-flex flex-column gap-2">
+                                <div class="name">Cybersécurité</div>
+                                <p class="desc mb-0">Bases du test d'intrusion avec Nmap et Metasploit, dans un cadre de
+                                    laboratoire et de compétition. Sécurisation de l'accès SSH sous Kali Linux et
+                                    Windows.</p>
+                                <div class="meta mt-auto">En cours d'apprentissage : Burp Suite, OWASP Top 10, analyse
+                                    de logs</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card">
-                        <div class="name">Développement</div>
-                        <div class="desc">HTML, CSS et JavaScript pour le web, Java pour les applications, PHP avec
-                            Symfony, bases de Python et de C.</div>
+                    <div class="col-md-6">
+                        <div class="card card-vivid c-amber h-100">
+                            <div class="card-body d-flex flex-column gap-2">
+                                <div class="name">Développement</div>
+                                <p class="desc mb-0">HTML, CSS et JavaScript pour le web, Java pour les applications,
+                                    PHP avec Symfony, bases de Python et de C.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="note">Programmation (bases) : Bash · Python · C / C++ · Java · PHP · JavaScript<br>
@@ -171,103 +222,133 @@
 
         <!-- PROJETS -->
         <section id="projets" aria-labelledby="t-projets">
-            <div class="wrap">
+            <div class="container">
                 <div class="tag">03 // PROJETS</div>
                 <h2 id="t-projets">Réalisations et laboratoires</h2>
 
                 <h3 class="sub">Réseaux et cybersécurité</h3>
-                <div class="grid g2">
-                    <article class="card">
-                        <div class="meta">RÉSEAUX · PROJET DE FIN D'ANNÉE</div>
-                        <h3>Transfert de fichiers client / serveur</h3>
-                        <p>Application client-serveur permettant d'envoyer et de recevoir des fichiers texte et
-                            multimédia (images, audio, vidéo) à travers un réseau.</p>
-                        <div class="stack">Python · Sockets · Client-serveur</div>
-                        <div class="row"><a
-                                href="https://github.com/KIADY04/Sujet4_Transfert_de_Fichiers_Multim-dia_et_Textes_Client_Serveur"
-                                target="_blank" rel="noopener noreferrer">Voir le dépôt →</a></div>
-                    </article>
-                    <article class="card">
-                        <div class="meta">SYSTÈMES · CYBERSÉCURITÉ</div>
-                        <h3>Home lab de cybersécurité</h3>
-                        <p>Laboratoire de test d'intrusion : une machine Kali Linux (installée sur ma machine réelle)
-                            attaque Metasploitable 2, une machine virtuelle volontairement vulnérable. J'ai aussi
-                            sécurisé l'accès SSH de Kali Linux et de Windows.</p>
-                        <div class="stack">VirtualBox · Kali Linux · Metasploitable 2 · SSH</div>
-                        <div class="row"><a href="Documentation/Documentation_SSH.pdf" target="_blank"
-                                rel="noopener noreferrer">Lire la documentation (PDF) →</a></div>
-                    </article>
-                    <article class="card hl">
-                        <div class="meta">CTF · COMPÉTITION EN ÉQUIPE</div>
-                        <h3>3e place au Capture The Flag</h3>
-                        <!-- À COMPLÉTER : nom de l'événement, date, nombre d'équipes (ex. « 3e sur 20 équipes, CTF INSI 2026 ») -->
-                        <p>Notre équipe a terminé à la 3e place. Mon rôle : l'intrusion système, c'est-à-dire repérer
-                            les services exposés des machines cibles et exploiter leurs failles pour y accéder.</p>
-                        <div class="stack">Nmap · Metasploit · Travail en équipe</div>
-                    </article>
+                <div class="row g-4 mb-5">
+                    <div class="col-md-6 col-lg-4">
+                        <article class="card card-vivid c-cyan h-100">
+                            <div class="card-body d-flex flex-column gap-2">
+                                <div class="meta">RÉSEAUX · PROJET DE FIN D'ANNÉE</div>
+                                <h3 class="h5 mb-0">Transfert de fichiers client / serveur</h3>
+                                <p class="mb-0">Application client-serveur permettant d'envoyer et de recevoir des
+                                    fichiers texte et multimédia (images, audio, vidéo) à travers un réseau.</p>
+                                <div class="stack">Python · Sockets · Client-serveur</div>
+                                <div class="mt-auto"><a
+                                        href="https://github.com/KIADY04/Sujet4_Transfert_de_Fichiers_Multim-dia_et_Textes_Client_Serveur"
+                                        target="_blank" rel="noopener noreferrer">Voir le dépôt →</a></div>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <article class="card card-vivid c-lime h-100">
+                            <div class="card-body d-flex flex-column gap-2">
+                                <div class="meta">SYSTÈMES · CYBERSÉCURITÉ</div>
+                                <h3 class="h5 mb-0">Home lab de cybersécurité</h3>
+                                <p class="mb-0">Laboratoire de test d'intrusion : une machine Kali Linux (installée sur
+                                    ma machine réelle) attaque Metasploitable 2, une machine virtuelle volontairement
+                                    vulnérable. J'ai aussi sécurisé l'accès SSH de Kali Linux et de Windows.</p>
+                                <div class="stack">VirtualBox · Kali Linux · Metasploitable 2 · SSH</div>
+                                <div class="mt-auto"><a href="Documentation/Documentation_SSH.pdf" target="_blank"
+                                        rel="noopener noreferrer">Lire la documentation (PDF) →</a></div>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="col-md-12 col-lg-4">
+                        <article class="card card-vivid c-amber hl h-100">
+                            <div class="card-body d-flex flex-column gap-2">
+                                <div class="meta">CTF · COMPÉTITION EN ÉQUIPE</div>
+                                <h3 class="h5 mb-0">🏆 3e place au Capture The Flag</h3>
+                                <!-- À COMPLÉTER : nom de l'événement, date, nombre d'équipes (ex. « 3e sur 20 équipes, CTF INSI 2026 ») -->
+                                <p class="mb-0">Notre équipe a terminé à la 3e place. Mon rôle : l'intrusion système,
+                                    c'est-à-dire repérer les services exposés des machines cibles et exploiter leurs
+                                    failles pour y accéder.</p>
+                                <div class="stack">Nmap · Metasploit · Travail en équipe</div>
+                            </div>
+                        </article>
+                    </div>
                 </div>
 
                 <h3 class="sub">Développement</h3>
-                <div class="grid g3">
-                    <article class="card">
-                        <a class="shot" href="https://fandresenamisaina.github.io/projetjavascript/" target="_blank"
-                            rel="noopener noreferrer" aria-label="Ouvrir la démo en ligne du projet JavaScript">
-                            <img src="images/images.png" width="640" height="400" loading="lazy"
-                                decoding="async" alt="Capture d'écran du projet JavaScript"
-                                onerror="this.style.display='none'">
-                        </a>
-                        <div class="meta">WEB · HTML / CSS / JAVASCRIPT</div>
-                        <h3>Projet JavaScript</h3>
-                        <p>Site web réalisé pour comprendre et mettre en pratique l'utilisation de JavaScript.</p>
-                        <div class="row">
-                            <a href="https://fandresenamisaina.github.io/projetjavascript/" target="_blank"
-                                rel="noopener noreferrer">Voir la démo →</a>
-                            <a href="https://github.com/fandresenamisaina/projetjavascript" target="_blank"
-                                rel="noopener noreferrer">Code GitHub →</a>
-                        </div>
-                    </article>
-                    <article class="card">
-                        <a class="shot" href="https://github.com/fandresenamisaina/GestionEployer" target="_blank"
-                            rel="noopener noreferrer" aria-label="Voir le code de Gestion des employés sur GitHub">
-                            <img src="images/Capture d'écran 2026-10-14 143944.png" width="640" height="400" loading="lazy" decoding="async"
-                                alt="Capture d'écran de l'application Gestion des employés"
-                                onerror="this.style.display='none'">
-                        </a>
-                        <div class="meta">APPLICATION · JAVA</div>
-                        <h3>Gestion des employés</h3>
-                        <p>Application de gestion des employés développée en Java.</p>
-                        <div class="row"><a href="https://github.com/fandresenamisaina/GestionEployer" target="_blank"
-                                rel="noopener noreferrer">Voir le code sur GitHub →</a></div>
-                    </article>
-                    <article class="card">
-                        <a class="shot" href="https://github.com/fandresenamisaina/symfony_offres_employe"
-                            target="_blank" rel="noopener noreferrer"
-                            aria-label="Voir le code des offres d'emploi sur GitHub">
-                            <img src="images/Capture d'écran 2026-10-14 135853.png" width="640" height="400" loading="lazy" decoding="async"
-                                alt="Capture d'écran de l'application d'offres d'emploi Symfony"
-                                onerror="this.style.display='none'">
-                        </a>
-                        <div class="meta">WEB · PHP / SYMFONY</div>
-                        <h3>Offres d'emploi</h3>/
-                        <p>Application Symfony pour la gestion des offres d'emploi.</p>
-                        <div class="row"><a href="https://github.com/fandresenamisaina/symfony_offres_employe"
-                                target="_blank" rel="noopener noreferrer">Voir le code sur GitHub →</a></div>
-                    </article>
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-4">
+                        <article class="card card-vivid c-pink h-100">
+                            <a class="shot ratio" style="--bs-aspect-ratio:62.5%"
+                                href="https://fandresenamisaina.github.io/projetjavascript/" target="_blank"
+                                rel="noopener noreferrer" aria-label="Ouvrir la démo en ligne du projet JavaScript">
+                                <img src="images/images.png" width="640" height="400" loading="lazy" decoding="async"
+                                    alt="Capture d'écran du projet JavaScript" onerror="this.style.display='none'">
+                            </a>
+                            <div class="card-body d-flex flex-column gap-2">
+                                <div class="meta">WEB · HTML / CSS / JAVASCRIPT</div>
+                                <h3 class="h5 mb-0">Projet JavaScript</h3>
+                                <p class="mb-0">Site web réalisé pour comprendre et mettre en pratique l'utilisation de
+                                    JavaScript.</p>
+                                <div class="mt-auto d-flex flex-wrap gap-3">
+                                    <a href="https://fandresenamisaina.github.io/projetjavascript/" target="_blank"
+                                        rel="noopener noreferrer">Voir la démo →</a>
+                                    <a href="https://github.com/fandresenamisaina/projetjavascript" target="_blank"
+                                        rel="noopener noreferrer">Code GitHub →</a>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <article class="card card-vivid c-violet h-100">
+                            <a class="shot ratio" style="--bs-aspect-ratio:62.5%"
+                                href="https://github.com/fandresenamisaina/GestionEployer" target="_blank"
+                                rel="noopener noreferrer" aria-label="Voir le code de Gestion des employés sur GitHub">
+                                <img src="images/Capture d'écran 2026-10-14 143944.png" width="640" height="400"
+                                    loading="lazy" decoding="async"
+                                    alt="Capture d'écran de l'application Gestion des employés"
+                                    onerror="this.style.display='none'">
+                            </a>
+                            <div class="card-body d-flex flex-column gap-2">
+                                <div class="meta">APPLICATION · JAVA</div>
+                                <h3 class="h5 mb-0">Gestion des employés</h3>
+                                <p class="mb-0">Application de gestion des employés développée en Java.</p>
+                                <div class="mt-auto"><a href="https://github.com/fandresenamisaina/GestionEployer"
+                                        target="_blank" rel="noopener noreferrer">Voir le code sur GitHub →</a></div>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <article class="card card-vivid c-cyan h-100">
+                            <a class="shot ratio" style="--bs-aspect-ratio:62.5%"
+                                href="https://github.com/fandresenamisaina/symfony_offres_employe" target="_blank"
+                                rel="noopener noreferrer" aria-label="Voir le code des offres d'emploi sur GitHub">
+                                <img src="images/Capture d'écran 2026-10-14 135853.png" width="640" height="400"
+                                    loading="lazy" decoding="async"
+                                    alt="Capture d'écran de l'application d'offres d'emploi Symfony"
+                                    onerror="this.style.display='none'">
+                            </a>
+                            <div class="card-body d-flex flex-column gap-2">
+                                <div class="meta">WEB · PHP / SYMFONY</div>
+                                <h3 class="h5 mb-0">Offres d'emploi</h3>
+                                <p class="mb-0">Application Symfony pour la gestion des offres d'emploi.</p>
+                                <div class="mt-auto"><a
+                                        href="https://github.com/fandresenamisaina/symfony_offres_employe"
+                                        target="_blank" rel="noopener noreferrer">Voir le code sur GitHub →</a></div>
+                            </div>
+                        </article>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- FORMATION -->
         <section id="formation" class="alt" aria-labelledby="t-formation">
-            <div class="wrap">
+            <div class="container">
                 <div class="tag">04 // FORMATION</div>
                 <h2 id="t-formation">Parcours scolaire</h2>
                 <div class="timeline">
                     <div class="tl now">
                         <div class="when">2025 – 2028 · EN COURS</div>
                         <b>Licence Informatique, parcours ARSB</b>
-                        <div>INSI, Institut National Supérieur d'Informatique. Réseaux, administration système, Merise
-                            et SQL, programmation, web design, gestion de projet, cybersécurité, introduction à
+                        <div>INSI, Institut National Supérieur d'Informatique. Réseaux, administration système,
+                            Merise et SQL, programmation, web design, gestion de projet, cybersécurité, introduction à
                             l'intelligence artificielle.</div>
                     </div>
                     <div class="tl">
@@ -281,41 +362,52 @@
 
         <!-- FEUILLE DE ROUTE -->
         <section id="feuille" aria-labelledby="t-feuille">
-            <div class="wrap">
+            <div class="container">
                 <div class="tag">05 // FEUILLE DE ROUTE</div>
                 <h2 id="t-feuille">Le chemin vers l'expertise</h2>
-                <div class="grid g3">
-                    <div class="step now">
-                        <div class="when">EN COURS · L2</div><b>Fondations</b>
-                        <div>Réseaux, Linux, SQL, Python. Premiers labs et premier CTF.</div>
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="step s-cyan now">
+                            <div class="when">EN COURS · L2</div><b>Fondations</b>
+                            <div>Réseaux, Linux, SQL, Python. Premiers labs et premier CTF.</div>
+                        </div>
                     </div>
-                    <div class="step">
-                        <div class="when">OBJECTIF · L3</div><b>Certifications d'entrée</b>
-                        <div>Cisco CCNA, CompTIA Security+ ou équivalent. Stage en administration ou en sécurité.</div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="step s-lime">
+                            <div class="when">OBJECTIF · L3</div><b>Certifications d'entrée</b>
+                            <div>Cisco CCNA, CompTIA Security+ ou équivalent. Stage en administration ou en sécurité.
+                            </div>
+                        </div>
                     </div>
-                    <div class="step">
-                        <div class="when">OBJECTIF · MASTER</div><b>Spécialisation</b>
-                        <div>Test d'intrusion ou SOC : eJPT, CEH, puis OSCP. Plus de compétitions CTF.</div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="step s-amber">
+                            <div class="when">OBJECTIF · MASTER</div><b>Spécialisation</b>
+                            <div>Test d'intrusion ou SOC : eJPT, CEH, puis OSCP. Plus de compétitions CTF.</div>
+                        </div>
                     </div>
-                    <div class="step">
-                        <div class="when">OBJECTIF · LONG TERME</div><b>Expert confirmé</b>
-                        <div>CISSP ou équivalent, DevSecOps et sécurité cloud, veille permanente.</div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="step s-pink">
+                            <div class="when">OBJECTIF · LONG TERME</div><b>Expert confirmé</b>
+                            <div>CISSP ou équivalent, DevSecOps et sécurité cloud, veille permanente.</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- CONTACT -->
-        <section id="contact" class="contact alt" aria-labelledby="t-contact">
-            <div class="wrap">
-                <div class="tag">06 // CONTACT</div>
+        <section id="contact" class="contact" aria-labelledby="t-contact">
+            <div class="container">
+                <div class="tag-light">06 // CONTACT</div>
                 <h2 id="t-contact">Travaillons ensemble</h2>
-                <p>Stage, projet, mentorat ou simple échange : je réponds à toute proposition liée à l'informatique et à
-                    la sécurité.</p>
-                <div class="links">
-                    <a href="mailto:fandresenamisaina@gmail.com">fandresenamisaina@gmail.com</a>
-                    <a href="https://github.com/fandresenamisaina" target="_blank" rel="noopener noreferrer">GitHub</a>
-                    <a href="Documentation/CV Fandresena_ARSB.pdf" target="_blank" rel="noopener noreferrer">Mon CV</a>
+                <p>Stage, projet, mentorat ou simple échange : je réponds à toute proposition liée à l'informatique et
+                    à la sécurité.</p>
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+                    <a class="btn btn-lime btn-lg" href="mailto:fandresenamisaina@gmail.com">fandresenamisaina@gmail.com</a>
+                    <a class="btn btn-white btn-lg" href="https://github.com/fandresenamisaina" target="_blank"
+                        rel="noopener noreferrer">GitHub</a>
+                    <a class="btn btn-outline-light btn-lg" href="Documentation/CV Fandresena_ARSB.pdf"
+                        target="_blank" rel="noopener noreferrer">Mon CV</a>
                 </div>
             </div>
         </section>
@@ -324,6 +416,21 @@
 
     <footer>© 2026 RAKOTOARIVELO Fanaja Misaina Fandresena · L2 ARSB · Fait avec rigueur et curiosité</footer>
 
+    <!-- Bootstrap 5.3.8 (local) -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Referme le menu hamburger après un clic sur un lien (mobile)
+        (function () {
+            var menu = document.getElementById('menu');
+            menu.querySelectorAll('.nav-link').forEach(function (lien) {
+                lien.addEventListener('click', function () {
+                    if (menu.classList.contains('show')) {
+                        bootstrap.Collapse.getOrCreateInstance(menu).hide();
+                    }
+                });
+            });
+        })();
+    </script>
 </body>
 
 </html>
