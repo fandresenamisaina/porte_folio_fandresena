@@ -1,0 +1,40 @@
+/* Effets cyber : à charger après folio.css */
+#matrix{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.16}
+.fx-off #matrix{display:none}
+@media (max-width:576px){#matrix{display:none}}
+
+/* Curseur du terminal (la dernière ligne a déjà le sien) */
+.term .typing:not(.warn)::after{content:"\258D";margin-left:2px;color:#4FD8A0;animation:fx-blink 1s steps(1) infinite}
+@keyframes fx-blink{50%{opacity:0}}
+
+/* Glitch du titre */
+.glitch{position:relative;display:inline-block}
+.glitch::before,.glitch::after{content:attr(data-text);position:absolute;left:0;top:0;width:100%;opacity:0;pointer-events:none;-webkit-text-fill-color:currentColor}
+.glitch.go::before{opacity:.9;color:#ff3b6b;transform:translateX(-3px);animation:fx-glitch .45s steps(2)}
+.glitch.go::after{opacity:.9;color:#3bd6ff;transform:translateX(3px);animation:fx-glitch .45s steps(2) reverse}
+@keyframes fx-glitch{
+    0%{clip-path:inset(10% 0 70% 0)}25%{clip-path:inset(60% 0 5% 0)}
+    50%{clip-path:inset(30% 0 40% 0)}75%{clip-path:inset(80% 0 2% 0)}100%{clip-path:inset(0 0 90% 0)}
+}
+
+/* Cartes : halo qui suit la souris */
+.card.tilt{will-change:transform}
+.card.tilt::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;
+    background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(79,216,160,.18),transparent 60%);
+    transition:opacity .2s}
+.card.tilt:hover::after{opacity:1}
+
+/* Bouton FX */
+.fx-toggle{position:fixed;left:1rem;bottom:1rem;z-index:1030;padding:.35rem .7rem;border-radius:6px;
+    border:1px solid #4FD8A0;background:#0D131B;color:#4FD8A0;font:600 .8rem "JetBrains Mono",monospace;cursor:pointer}
+.fx-toggle:hover,.fx-toggle:focus-visible{background:#4FD8A0;color:#0D131B;outline:none}
+
+/* Konami */
+#granted{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;
+    background:rgba(6,10,15,.94);color:#4FD8A0;font:800 clamp(1.5rem,6vw,3.5rem) "JetBrains Mono",monospace;
+    text-align:center;cursor:pointer;animation:fx-in .3s}
+#granted small{display:block;margin-top:1rem;font:400 1rem "IBM Plex Sans",sans-serif;color:#cfd8e3}
+@keyframes fx-in{from{opacity:0;transform:scale(1.05)}}
+
+/* Animations coupées */
+.fx-off .glitch.go::before,.fx-off .glitch.go::after,.fx-off .card.tilt::after{display:none}

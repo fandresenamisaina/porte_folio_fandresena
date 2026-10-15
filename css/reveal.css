@@ -1,0 +1,37 @@
+/* Animations d'apparition du contenu : à charger après folio.css et cyber.css */
+.js [data-fx]{opacity:0;
+    transition:opacity .7s ease,transform .8s cubic-bezier(.2,.7,.2,1),filter .7s ease;
+    transition-delay:var(--d,0s)}
+
+/* Variantes (état de départ) */
+.js [data-fx=up]{transform:translateY(36px)}
+.js [data-fx=left]{transform:translateX(-48px)}
+.js [data-fx=right]{transform:translateX(48px);filter:blur(6px)}
+.js [data-fx=zoom]{transform:scale(.8)}
+.js [data-fx=blur]{transform:translateY(14px);filter:blur(10px)}
+.js [data-fx=pop]{transform:scale(.5);transition-timing-function:cubic-bezier(.34,1.56,.64,1)}
+.js [data-fx=flip]{transform:perspective(800px) rotateX(-55deg) translateY(30px);transform-origin:top center}
+
+/* État final commun */
+.js [data-fx].fx-show{opacity:1;transform:none;filter:none}
+
+/* Texte mot par mot */
+.w{display:inline-block}
+.js [data-fx=words]{opacity:1;transform:none;filter:none;transition:none}
+.js [data-fx=words] .w{opacity:0;transform:translateY(.7em);
+    transition:opacity .5s ease,transform .5s cubic-bezier(.2,.7,.2,1);
+    transition-delay:calc(var(--i,0) * .035s + .2s)}
+.js [data-fx=words].fx-show .w{opacity:1;transform:none}
+
+/* Impulsion unique sur les cartes mises en avant */
+.js [data-fx].fx-show.hl{animation:fx-pulse 1.2s ease-out .7s 1}
+@keyframes fx-pulse{
+    from{box-shadow:0 0 0 0 rgba(221,190,126,.5)}
+    to{box-shadow:0 0 0 16px rgba(221,190,126,0)}
+}
+
+/* Mouvement réduit ou FX coupés : tout s'affiche directement */
+@media (prefers-reduced-motion:reduce){
+    .js [data-fx],.js [data-fx] .w{opacity:1!important;transform:none!important;filter:none!important;transition:none!important;animation:none!important}
+}
+.fx-off [data-fx],.fx-off [data-fx] .w{opacity:1!important;transform:none!important;filter:none!important;transition:none!important;animation:none!important}

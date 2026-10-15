@@ -45,9 +45,12 @@
 </script>
 
     <!-- Bootstrap (dossier local) puis thème du portfolio -->
-     <script>document.documentElement.classList.add('js');</script>
+    <script>document.documentElement.classList.add('js');</script>
     <link rel="stylesheet" href="bootstrap-5.3.8-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/folio.css">
+    <link rel="stylesheet" href="css/cyber.css">
+    <link rel="stylesheet" href="css/reveal.css">
+
 </head>
 
 <body data-bs-spy="scroll" data-bs-target="#menu" data-bs-offset="80">
@@ -56,7 +59,7 @@
     <header class="sticky-top">
         <nav class="navbar navbar-expand-lg" aria-label="Navigation principale">
             <div class="container">
-                <a class="navbar-brand" href="#main">&gt; RAKOTOARIVELO Fanaja Misaina Fa<span>_</span></a>
+                <a class="navbar-brand" href="#main">&gt; FandresenaXploit<span>_</span></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
                     aria-controls="menu" aria-expanded="false" aria-label="Ouvrir le menu">
                     <span class="navbar-toggler-icon"></span>
@@ -141,6 +144,12 @@
                             <span class="badge rounded-pill">Réseaux et systèmes</span>
                             <span class="badge rounded-pill">Virtualisation</span>
                             <span class="badge rounded-pill">Linux et open source</span>
+                        </div>
+                        <div class="pills">
+                            <span class="badge rounded-pill">Curieux</span>
+                            <span class="badge rounded-pill">Analytique</span>
+                            <span class="badge rounded-pill">Rigoureux</span>
+                            <span class="badge rounded-pill">Esprit d'équipe</span>
                         </div>
                     </div>
                 </div>
@@ -352,7 +361,7 @@
                     <div class="tl">
                         <div class="when">2025</div>
                         <b>Baccalauréat, série A2</b>
-                        <div>LPA orient, Madagascar.</div>
+                        <div>LPA orion, Madagascar.</div>
                     </div>
                 </div>
             </div>
@@ -412,6 +421,7 @@
         </section>
 
     </main>
+    <button class="scroll-top" id="scrollTop" type="button" aria-label="Retour en haut">↑</button>
 
     <footer>© 2026 RAKOTOARIVELO Fanaja Misaina Fandresena · L2 ARSB · Fait avec rigueur et curiosité</footer>
 
@@ -429,6 +439,28 @@
             }
             window.addEventListener('scroll', onScroll, { passive: true });
             onScroll();
+
+            // Retour en haut
+            var st = document.getElementById('scrollTop');
+            window.addEventListener('scroll', function () {
+                st.classList.toggle('show', window.scrollY > 600);
+            }, { passive: true });
+            st.addEventListener('click', function () {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // Fermer le menu mobile après un clic
+            document.querySelectorAll('#menu .nav-link').forEach(function (a) {
+                a.addEventListener('click', function () {
+                    var m = document.getElementById('menu');
+                    if (m.classList.contains('show')) bootstrap.Collapse.getOrCreateInstance(m).hide();
+                });
+            });
+
+            // Respect de prefers-reduced-motion
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+            }
 
             // Apparition au défilement
             var targets = document.querySelectorAll(
@@ -453,6 +485,8 @@
             targets.forEach(function (el) { io.observe(el); });
         })();
     </script>
+    <script src="js/cyber.js" defer></script>
+    <script src="js/reveal.js" defer></script>
 </body>
 
 </html>
