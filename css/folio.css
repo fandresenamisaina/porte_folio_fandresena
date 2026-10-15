@@ -350,7 +350,7 @@ footer { border-top: 1px solid var(--line); padding: 24px; text-align: center; f
 /* ---------- Accessibilité : moins de mouvement ---------- */
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    *, *::before, *::after { animation: none !important; transition: none !important; }
+    :root:not(.fx-on) *, :root:not(.fx-on) *::before, :root:not(.fx-on) *::after { animation: none !important; transition: none !important; }
     .js .reveal:not(.in) { opacity: 1; }
 }
 
@@ -361,3 +361,22 @@ footer { border-top: 1px solid var(--line); padding: 24px; text-align: center; f
     opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 1030;
 }
 .scroll-top.show { opacity: 1; pointer-events: auto; }
+
+/* ---------- Responsive : aucun débordement horizontal ---------- */
+body { overflow-x: hidden; overflow-x: clip; }
+main, section, .hero { overflow-x: clip; }
+.term { overflow-wrap: anywhere; }
+
+@media (max-width: 991.98px) {
+    .hero { padding-top: 56px; padding-bottom: 56px; }
+    .hero-lead { max-width: none; }
+}
+@media (max-width: 600px) {
+    .term { padding: 16px; font-size: 13px; line-height: 1.8; }
+    .term .title::before { margin: 0 16px 0 12px; }
+    .card { --bs-card-spacer-x: 18px; --bs-card-spacer-y: 18px; }
+    .links .btn-folio { width: 100%; padding: 0 12px; font-size: 13px; overflow-wrap: anywhere; }
+    .contact h2 { font-size: 1.75rem; }
+    .contact::before { width: 100%; }
+    .scroll-top { bottom: calc(1rem + env(safe-area-inset-bottom, 0px)); }
+}

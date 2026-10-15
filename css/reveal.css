@@ -32,6 +32,12 @@
 
 /* Mouvement réduit ou FX coupés : tout s'affiche directement */
 @media (prefers-reduced-motion:reduce){
-    .js [data-fx],.js [data-fx] .w{opacity:1!important;transform:none!important;filter:none!important;transition:none!important;animation:none!important}
+    :root:not(.fx-on) [data-fx],:root:not(.fx-on) [data-fx] .w{opacity:1!important;transform:none!important;filter:none!important;transition:none!important;animation:none!important}
 }
 .fx-off [data-fx],.fx-off [data-fx] .w{opacity:1!important;transform:none!important;filter:none!important;transition:none!important;animation:none!important}
+
+/* Petits écrans : déplacements plus courts, pour ne jamais dépasser la largeur */
+@media (max-width:600px){
+    .js [data-fx=left]{transform:translateX(-20px)}
+    .js [data-fx=right]{transform:translateX(20px)}
+}

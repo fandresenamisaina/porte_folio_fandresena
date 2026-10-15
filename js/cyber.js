@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     var root = document.documentElement;
-    var GREEN = '#3ddc97';
+    var GREEN = '#4FD8A0';
     var GLYPHS = '01<>/{}$#%&*ABCDEF'.split('');
 
     // Etat : désactivé par défaut si l'utilisateur préfère moins de mouvement
@@ -11,13 +11,14 @@
         if (saved) on = saved === 'on';
     } catch (e) {}
     root.classList.toggle('fx-off', !on);
+    root.classList.toggle('fx-on', on);
 
     // 1. Pluie de code (Matrix), légère et en pause quand l'onglet est caché
     var cv = document.createElement('canvas');
     cv.id = 'matrix';
     cv.setAttribute('aria-hidden', 'true');
     document.body.prepend(cv);
-    var cx = cv.getContext('2d'), fs = 16, drops = [];
+    var cx = cv.getContext('2d'), fs = innerWidth < 600 ? 20 : 16, drops = [], lastW = innerWidth;
     function size() {
         cv.width = innerWidth;
         cv.height = innerHeight;
@@ -25,10 +26,13 @@
         for (var i = 0; i < Math.ceil(cv.width / fs); i++) drops.push(Math.random() * -40);
     }
     size();
-    addEventListener('resize', size);
+    addEventListener('resize', function () {
+        // Sur téléphone, 'resize' se déclenche au défilement : on ne relance que si la largeur change
+        if (innerWidth !== lastW) { lastW = innerWidth; fs = innerWidth < 600 ? 20 : 16; size(); }
+    });
     setInterval(function () {
         if (!on || document.hidden) return;
-        cx.fillStyle = 'rgba(22,29,39,.14)';
+        cx.fillStyle = 'rgba(13,19,27,.14)';
         cx.fillRect(0, 0, cv.width, cv.height);
         cx.fillStyle = GREEN;
         cx.font = fs + 'px "JetBrains Mono", monospace';
@@ -94,25 +98,30 @@
         document.querySelectorAll('section h2').forEach(function (h) { io.observe(h); });
     }
 
-    // 5. Cartes : inclinaison 3D et halo qui suit la souris
-    if (matchMedia('(hover: hover)').matches) {
-        document.querySelectorAll('.card').forEach(function (c) {
-            c.classList.add('tilt');
-            c.addEventListener('mousemove', function (e) {
-                if (!on) return;
-                var r = c.getBoundingClientRect(),
-                    x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
-                c.style.transition = 'transform .08s';
-                c.style.transform = 'perspective(700px) rotateX(' + ((.5 - y) * 8) + 'deg) rotateY(' + ((x - .5) * 8) + 'deg)';
-                c.style.setProperty('--mx', x * 100 + '%');
-                c.style.setProperty('--my', y * 100 + '%');
-            });
-            c.addEventListener('mouseleave', function () {
-                c.style.transition = 'transform .4s';
-                c.style.transform = '';
-            });
-        });
-    }
+    // 5. Cartes : inclinaison 3D et halo (souris ET toucher)
+    document.querySelectorAll('.card').forEach(function (c) {
+        c.classList.add('tilt');
+        function move(e) {
+            if (!on) return;
+            var r = c.getBoundingClientRect(),
+                x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+            c.style.transition = 'transform .08s, border-color .3s, box-shadow .35s';
+            c.style.transform = 'perspective(700px) translateY(-6px) rotateX(' + ((.5 - y) * 8) + 'deg) rotateY(' + ((x - .5) * 8) + 'deg)';
+            c.style.setProperty('--mx', x * 100 + '%');
+            c.style.setProperty('--my', y * 100 + '%');
+            c.classList.add('touch-on');
+        }
+        function leave() {
+            c.style.transition = 'transform .4s, border-color .3s, box-shadow .35s';
+            c.style.transform = '';
+            c.classList.remove('touch-on');
+        }
+        c.addEventListener('pointerdown', move);
+        c.addEventListener('pointermove', move);
+        c.addEventListener('pointerup', leave);
+        c.addEventListener('pointerleave', leave);
+        c.addEventListener('pointercancel', leave);
+    });
 
     // 6. Bouton FX : activer / couper les animations
     var btn = document.createElement('button');
@@ -127,6 +136,7 @@
     btn.addEventListener('click', function () {
         on = !on;
         root.classList.toggle('fx-off', !on);
+        root.classList.toggle('fx-on', on);
         if (!on) cx.clearRect(0, 0, cv.width, cv.height);
         try { localStorage.setItem('fx', on ? 'on' : 'off'); } catch (e) {}
         label();
