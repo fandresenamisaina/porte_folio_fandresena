@@ -1,55 +1,70 @@
 (function () {
     'use strict';
 
-    // Le script d'origine a ajouté la classe .reveal : on reprend la main
-    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.remove('reveal'); });
+    // Pas d'animation si le visiteur demande moins de mouvement : tout reste visible
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    // Sélecteur -> type d'animation
+    var root = document.documentElement;
+
+    // Sélecteur -> type d'animation (le premier qui correspond gagne)
     var MAP = [
-        ['.hero .photo', 'zoom'],
-        ['.hero .kicker', 'left'],
+        ['.hero .portrait-wrap', 'slide'],
+        ['.hero .kick', 'left'],
         ['.hero h1', 'blur'],
         ['.hero .btns .btn', 'pop'],
         ['.term', 'right'],
-        ['section .tag', 'left'],
+        ['.status', 'up'],
+        ['.stat', 'up'],
+        ['.eyebrow', 'left'],
         ['section h2', 'blur'],
-        ['h3.sub', 'left'],
-        ['.about p', 'up'],
-        ['.pills .badge', 'pop'],
+        ['.group-title', 'left'],
+        ['.about-l p', 'up'],
+        ['.stage-box', 'up'],
+        ['.contact-l > p', 'up'],
+        ['.contact-r', 'up'],
+        ['.legend', 'up'],
         ['.card', 'flip'],
-        ['.note', 'up'],
-        ['.tl', 'left'],
+        ['.give', 'up'],
         ['.step', 'up'],
-        ['.contact p', 'up'],
-        ['.links .btn', 'pop']
+        ['.contact .row', 'up']
     ];
 
-    // Titre d'accroche : apparition mot par mot
+    // Groupes : le décalage progressif se fait au sein d'un même conteneur
+    var GROUPS = '.row2, .btns, .grid, .stats-in, .about-r, .path-l, .path-r, .stage-r, .rows, .proj-group';
+
+    // Texte d'accroche : apparition mot par mot, sans perdre le texte en gras
     var lead = document.querySelector('.hero-lead');
+    var wordCount = 0;
     if (lead) {
-        var words = lead.textContent.trim().split(/\s+/);
-        lead.textContent = '';
-        words.forEach(function (w, i) {
-            var s = document.createElement('span');
-            s.className = 'w';
-            s.style.setProperty('--i', i);
-            s.textContent = w;
-            lead.appendChild(s);
-            if (i < words.length - 1) lead.appendChild(document.createTextNode(' '));
+        var walker = document.createTreeWalker(lead, NodeFilter.SHOW_TEXT);
+        var nodes = [], n;
+        while ((n = walker.nextNode())) nodes.push(n);
+        nodes.forEach(function (node) {
+            var parts = node.nodeValue.split(/(\s+)/);
+            var frag = document.createDocumentFragment();
+            parts.forEach(function (p) {
+                if (!p) return;
+                if (/^\s+$/.test(p)) { frag.appendChild(document.createTextNode(p)); return; }
+                var s = document.createElement('span');
+                s.className = 'w';
+                s.style.setProperty('--i', wordCount++);
+                s.textContent = p;
+                frag.appendChild(s);
+            });
+            node.parentNode.replaceChild(frag, node);
         });
         lead.setAttribute('data-fx', 'words');
     }
 
-    // Décalage progressif entre éléments d'un même groupe (ligne de cartes, badges...)
-    var groups = new Map(), items = [];
+    var counters = new Map(), items = [];
     MAP.forEach(function (m) {
         document.querySelectorAll(m[0]).forEach(function (el) {
             if (el.hasAttribute('data-fx')) return;
-            var g = el.closest('.row, .pills, .btns, .links') || el.parentNode;
-            var n = groups.get(g) || 0;
-            groups.set(g, n + 1);
+            var g = el.closest(GROUPS) || el.parentNode;
+            var k = counters.get(g) || 0;
+            counters.set(g, k + 1);
             el.setAttribute('data-fx', m[1]);
-            el.style.setProperty('--d', Math.min(n, 6) * 0.1 + 's');
+            el.style.setProperty('--d', Math.min(k, 6) * 0.09 + 's');
             items.push(el);
         });
     });
@@ -57,19 +72,28 @@
 
     function show(el) {
         el.classList.add('fx-show');
-        // Une fois l'animation finie, on rend la main au CSS normal (survols, etc.)
+        if (el === lead) return;
+        // Après l'animation, on rend la main au CSS normal (survols, etc.)
+        var d = parseFloat(el.style.getPropertyValue('--d')) || 0;
         setTimeout(function () {
             el.removeAttribute('data-fx');
             el.classList.remove('fx-show');
             el.style.removeProperty('--d');
-        }, 3000);
+        }, 900 + d * 1000);
     }
 
-    if (!('IntersectionObserver' in window)) { items.forEach(show); return; }
+    if (!('IntersectionObserver' in window)) {
+        items.forEach(function (el) { el.classList.add('fx-show'); });
+        return;
+    }
+
+    // On active le masquage seulement quand tout est prêt
+    root.classList.add('js-reveal');
+
     var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
             if (e.isIntersecting) { io.unobserve(e.target); show(e.target); }
         });
-    }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
+    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
     items.forEach(function (el) { io.observe(el); });
 })();

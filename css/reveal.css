@@ -30,6 +30,20 @@
     to{box-shadow:0 0 0 16px rgba(221,190,126,0)}
 }
 
+/* Photo de profil : absente au départ, elle arrive de la droite vers sa place */
+.portrait-wrap{display:block;border-radius:16px;overflow:hidden}
+.portrait-wrap .portrait{display:block}
+.js [data-fx=slide]{
+    opacity:0;
+    transform:translateX(min(70vw,480px));
+    transition:opacity .5s ease,transform .7s cubic-bezier(.2,.8,.2,1);
+    transition-delay:.1s}
+
+/* Petit écran : la photo est centrée */
+@media (max-width:960px){
+    .hero-side{margin-inline:auto}
+}
+
 /* Mouvement réduit ou FX coupés : tout s'affiche directement */
 @media (prefers-reduced-motion:reduce){
     :root:not(.fx-on) [data-fx],:root:not(.fx-on) [data-fx] .w{opacity:1!important;transform:none!important;filter:none!important;transition:none!important;animation:none!important}

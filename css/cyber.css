@@ -41,3 +41,8 @@
 
 /* Toucher : le halo suit le doigt */
 .card.tilt.touch-on::after{opacity:1}
+
+/* Ajustements : pluie de code derrière le contenu, halo sur les cartes */
+#matrix{z-index:-1}
+.card.tilt{position:relative}
+.fx-toggle{z-index:1030}

@@ -1,162 +1,114 @@
 (function () {
     'use strict';
     var root = document.documentElement;
-    var GREEN = '#4FD8A0';
-    var GLYPHS = '01<>/{}$#%&*ABCDEF'.split('');
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Etat : désactivé par défaut si l'utilisateur préfère moins de mouvement
-    var on = !matchMedia('(prefers-reduced-motion: reduce)').matches;
-    try {
-        var saved = localStorage.getItem('fx');
-        if (saved) on = saved === 'on';
-    } catch (e) {}
-    root.classList.toggle('fx-off', !on);
-    root.classList.toggle('fx-on', on);
-
-    // 1. Pluie de code (Matrix), légère et en pause quand l'onglet est caché
-    var cv = document.createElement('canvas');
-    cv.id = 'matrix';
-    cv.setAttribute('aria-hidden', 'true');
-    document.body.prepend(cv);
-    var cx = cv.getContext('2d'), fs = innerWidth < 600 ? 20 : 16, drops = [], lastW = innerWidth;
-    function size() {
-        cv.width = innerWidth;
-        cv.height = innerHeight;
-        drops = [];
-        for (var i = 0; i < Math.ceil(cv.width / fs); i++) drops.push(Math.random() * -40);
+    // ---------- Menu mobile ----------
+    var burger = document.getElementById('burger');
+    var menu = document.getElementById('menu');
+    function setMenu(open) {
+        menu.classList.toggle('open', open);
+        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        burger.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
     }
-    size();
-    addEventListener('resize', function () {
-        // Sur téléphone, 'resize' se déclenche au défilement : on ne relance que si la largeur change
-        if (innerWidth !== lastW) { lastW = innerWidth; fs = innerWidth < 600 ? 20 : 16; size(); }
+    burger.addEventListener('click', function () {
+        setMenu(burger.getAttribute('aria-expanded') !== 'true');
     });
-    setInterval(function () {
-        if (!on || document.hidden) return;
-        cx.fillStyle = 'rgba(13,19,27,.14)';
-        cx.fillRect(0, 0, cv.width, cv.height);
-        cx.fillStyle = GREEN;
-        cx.font = fs + 'px "JetBrains Mono", monospace';
-        for (var i = 0; i < drops.length; i++) {
-            cx.fillText(GLYPHS[Math.random() * GLYPHS.length | 0], i * fs, drops[i] * fs);
-            if (drops[i] * fs > cv.height && Math.random() > 0.975) drops[i] = 0;
-            drops[i]++;
-        }
-    }, 55);
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && menu.classList.contains('open')) { setMenu(false); burger.focus(); }
+    });
+    var links = [].slice.call(menu.querySelectorAll('.nav-link'));
+    links.forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
 
-    // 2. Terminal du hero : les commandes se tapent toutes seules
-    var term = document.querySelector('.term');
-    if (term && on) {
+    // ---------- Section active dans le menu ----------
+    if ('IntersectionObserver' in window) {
+        var map = {};
+        links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+        function clearActive() {
+            links.forEach(function (a) { a.classList.remove('is-active'); a.removeAttribute('aria-current'); });
+        }
+        var spy = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+                if (!e.isIntersecting) return;
+                clearActive();
+                var a = map[e.target.id];
+                if (a) { a.classList.add('is-active'); a.setAttribute('aria-current', 'location'); }
+            });
+        }, { rootMargin: '-45% 0px -50% 0px' });
+        ['top'].concat(Object.keys(map)).forEach(function (id) {
+            var el = document.getElementById(id);
+            if (el) spy.observe(el);
+        });
+    }
+
+    // ---------- Thème clair / sombre ----------
+    var themeBtn = document.getElementById('themeBtn');
+    var themeLbl = document.getElementById('themeLbl');
+    var meta = document.querySelector('meta[name="theme-color"]');
+    function paintTheme() {
+        var light = root.getAttribute('data-theme') === 'light';
+        themeLbl.textContent = light ? 'Thème sombre' : 'Thème clair';
+        themeBtn.setAttribute('aria-label', light ? 'Passer au thème sombre' : 'Passer au thème clair');
+        themeBtn.setAttribute('title', light ? 'Thème sombre' : 'Thème clair');
+        if (meta) meta.setAttribute('content', light ? '#F6F8FA' : '#0E141B');
+    }
+    themeBtn.addEventListener('click', function () {
+        var next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) { }
+        paintTheme();
+    });
+    paintTheme();
+
+    // ---------- Filtre des projets (sans JavaScript, tout reste visible) ----------
+    var tabs = document.getElementById('tabs');
+    if (tabs) {
+        tabs.hidden = false;
+        var groups = [].slice.call(document.querySelectorAll('.proj-group'));
+        var btns = [].slice.call(tabs.querySelectorAll('.tab'));
+        btns.forEach(function (b) {
+            b.addEventListener('click', function () {
+                var f = b.getAttribute('data-filter');
+                btns.forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+                groups.forEach(function (g) { g.hidden = f !== 'all' && g.getAttribute('data-group') !== f; });
+            });
+        });
+    }
+
+    // ---------- Copier l'email ----------
+    var copyBtn = document.getElementById('copyBtn');
+    var copyLbl = document.getElementById('copyLbl');
+    var copyTimer;
+    if (copyBtn) {
+        copyBtn.addEventListener('click', function () {
+            var mail = 'fandresenamisaina@gmail.com';
+            function done() {
+                copyLbl.textContent = 'Copié ✓';
+                clearTimeout(copyTimer);
+                copyTimer = setTimeout(function () { copyLbl.textContent = 'Copier'; }, 2000);
+            }
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(mail).then(done, function () { });
+            }
+        });
+    }
+
+    // ---------- Terminal : les commandes se tapent toutes seules ----------
+    var term = document.getElementById('term');
+    if (term && !reduce) {
         var jobs = [];
-        [].slice.call(term.children, 1).forEach(function (line) {
+        [].slice.call(term.children).forEach(function (line) {
             var w = document.createTreeWalker(line, NodeFilter.SHOW_TEXT), n;
-            while ((n = w.nextNode())) if (n.nodeValue.trim()) jobs.push({ n: n, t: n.nodeValue });
+            while ((n = w.nextNode())) if (n.nodeValue.trim()) jobs.push({ n: n, t: n.nodeValue, out: line.classList.contains('out') });
         });
         jobs.forEach(function (j) { j.n.nodeValue = ''; });
-        var ji = 0, ci = 0, cur = null;
+        var ji = 0, ci = 0;
         (function step() {
-            if (ji >= jobs.length) { if (cur) cur.classList.remove('typing'); return; }
-            var j = jobs[ji], line = j.n.parentNode.closest('.term > div');
-            if (line !== cur) { if (cur) cur.classList.remove('typing'); cur = line; cur.classList.add('typing'); }
+            if (ji >= jobs.length) return;
+            var j = jobs[ji];
             j.n.nodeValue = j.t.slice(0, ++ci);
-            var out = /out|warn/.test(j.n.parentNode.className);
-            if (ci >= j.t.length) { ji++; ci = 0; setTimeout(step, out ? 180 : 320); }
-            else setTimeout(step, out ? 10 : 45);
+            if (ci >= j.t.length) { ji++; ci = 0; setTimeout(step, j.out ? 160 : 300); }
+            else setTimeout(step, j.out ? 8 : 40);
         })();
     }
-
-    // 3. Glitch périodique sur le mot en vert du titre
-    var em = document.querySelector('.hero h1 em');
-    if (em) {
-        em.classList.add('glitch');
-        em.setAttribute('data-text', em.textContent);
-        setInterval(function () {
-            if (!on) return;
-            em.classList.add('go');
-            setTimeout(function () { em.classList.remove('go'); }, 450);
-        }, 3800);
-    }
-
-    // 4. Titres de section : effet de "déchiffrement" à l'apparition
-    function scramble(el) {
-        var t = el.getAttribute('data-t') || el.textContent, f = 0, N = 24;
-        el.setAttribute('data-t', t);
-        el.setAttribute('aria-label', t);
-        var id = setInterval(function () {
-            var k = Math.floor(t.length * f / N);
-            el.textContent = t.slice(0, k) + t.slice(k).replace(/\S/g, function () {
-                return GLYPHS[Math.random() * GLYPHS.length | 0];
-            });
-            if (++f > N) { clearInterval(id); el.textContent = t; }
-        }, 30);
-    }
-    if ('IntersectionObserver' in window) {
-        var io = new IntersectionObserver(function (es) {
-            es.forEach(function (e) {
-                if (e.isIntersecting) { io.unobserve(e.target); if (on) scramble(e.target); }
-            });
-        }, { threshold: 0.6 });
-        document.querySelectorAll('section h2').forEach(function (h) { io.observe(h); });
-    }
-
-    // 5. Cartes : inclinaison 3D et halo (souris ET toucher)
-    document.querySelectorAll('.card').forEach(function (c) {
-        c.classList.add('tilt');
-        function move(e) {
-            if (!on) return;
-            var r = c.getBoundingClientRect(),
-                x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
-            c.style.transition = 'transform .08s, border-color .3s, box-shadow .35s';
-            c.style.transform = 'perspective(700px) translateY(-6px) rotateX(' + ((.5 - y) * 8) + 'deg) rotateY(' + ((x - .5) * 8) + 'deg)';
-            c.style.setProperty('--mx', x * 100 + '%');
-            c.style.setProperty('--my', y * 100 + '%');
-            c.classList.add('touch-on');
-        }
-        function leave() {
-            c.style.transition = 'transform .4s, border-color .3s, box-shadow .35s';
-            c.style.transform = '';
-            c.classList.remove('touch-on');
-        }
-        c.addEventListener('pointerdown', move);
-        c.addEventListener('pointermove', move);
-        c.addEventListener('pointerup', leave);
-        c.addEventListener('pointerleave', leave);
-        c.addEventListener('pointercancel', leave);
-    });
-
-    // 6. Bouton FX : activer / couper les animations
-    var btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'fx-toggle';
-    function label() {
-        btn.textContent = 'FX ' + (on ? 'ON' : 'OFF');
-        btn.setAttribute('aria-pressed', on);
-        btn.setAttribute('aria-label', on ? 'Désactiver les animations' : 'Activer les animations');
-    }
-    label();
-    btn.addEventListener('click', function () {
-        on = !on;
-        root.classList.toggle('fx-off', !on);
-        root.classList.toggle('fx-on', on);
-        if (!on) cx.clearRect(0, 0, cv.width, cv.height);
-        try { localStorage.setItem('fx', on ? 'on' : 'off'); } catch (e) {}
-        label();
-    });
-    document.body.appendChild(btn);
-
-    // 7. Code Konami (↑↑↓↓←→←→ B A) : message "ACCESS GRANTED"
-    var seq = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65], pos = 0;
-    addEventListener('keydown', function (e) {
-        if (e.keyCode === 27) { var o = document.getElementById('granted'); if (o) o.remove(); }
-        pos = e.keyCode === seq[pos] ? pos + 1 : (e.keyCode === seq[0] ? 1 : 0);
-        if (pos < seq.length) return;
-        pos = 0;
-        if (document.getElementById('granted')) return;
-        var d = document.createElement('div');
-        d.id = 'granted';
-        d.setAttribute('role', 'status');
-        d.innerHTML = '<div>&gt; ACCESS GRANTED<br><small>Bien joué, hacker. Échap pour fermer.</small></div>';
-        d.addEventListener('click', function () { d.remove(); });
-        document.body.appendChild(d);
-        setTimeout(function () { d.remove(); }, 4000);
-    });
 })();
