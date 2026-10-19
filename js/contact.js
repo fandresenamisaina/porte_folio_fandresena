@@ -9,7 +9,7 @@
     var MAIL = 'fandresenamisaina@gmail.com';
 
     // EmailJS : colle ici tes 3 identifiants (voir l'étape 1)
-    var EMAILJS = { publicKey: '', serviceId: '', templateId: '' };
+    var EMAILJS = { publicKey: 'PCqGyE1CPI0Ao6DZO', serviceId: 'service_zdtq7he', templateId: 'template_anmp3i9' };
 
     function say(msg, ok) {
         status.textContent = msg;
