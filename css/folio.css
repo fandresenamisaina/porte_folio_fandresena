@@ -361,6 +361,9 @@ section { scroll-margin-top: 76px; }
 .field::placeholder { color: var(--muted); opacity: .8; }
 textarea.field { resize: vertical; }
 .bot { position: absolute; left: -9999px; }
+.form-status { min-height: 1.6em; font-size: 14px; }
+.form-status.ok { color: var(--accent); }
+.form-status.err { color: var(--amber); }
 
 /* ---------- Pied de page ---------- */
 .site-footer { border-top: 1px solid var(--line); }

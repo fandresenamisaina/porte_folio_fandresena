@@ -703,8 +703,8 @@
                     </div>
 
                     <!-- Formulaire géré par Netlify Forms (actif uniquement quand le site est hébergé sur Netlify) -->
-                    <form class="card contact-r" name="contact" method="POST" action="merci.html" data-netlify="true"
-                        netlify-honeypot="bot-field">
+                    <form id="contactForm" class="card contact-r" name="contact" method="POST" action="merci.html"
+                        data-netlify="true" netlify-honeypot="bot-field" aria-describedby="formStatus">
                         <input type="hidden" name="form-name" value="contact">
                         <div class="kick">ÉCRIRE UN MESSAGE</div>
                         <p class="bot"><label>Ne pas remplir : <input name="bot-field" tabindex="-1"
@@ -725,6 +725,7 @@
                         <div class="field-wrap"><label for="f-msg">Message</label><textarea class="field" id="f-msg"
                                 name="message" rows="5" required
                                 placeholder="Entreprise, poste, durée, lieu..."></textarea></div>
+                        <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
                         <button type="submit" class="btn btn-p" style="align-self:flex-start">Envoyer le
                             message</button>
                     </form>
